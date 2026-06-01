@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title data-i18n="app.title">Paraglider Landing Pattern Calculator</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="visual-panel" aria-label="Landing pattern visualization" data-i18n-aria-label="aria.visualization">
+        <header class="topbar">
+          <div>
+            <h1 data-i18n="header.title">Landing Pattern</h1>
+            <p data-i18n="header.description">2D and isometric planning view for paraglider final approach setup.</p>
+          </div>
+          <div class="display-controls">
+            <div class="rotate-controls" role="group" aria-label="Rotate display" data-i18n-aria-label="aria.rotateDisplay">
+              <button type="button" data-rotate="-1" title="Rotate 90 degrees left" aria-label="Rotate 90 degrees left" data-i18n-title="button.rotateLeft" data-i18n-aria-label="button.rotateLeft">
+                <span class="material-symbols-outlined" aria-hidden="true">rotate_left</span>
+              </button>
+              <button type="button" data-rotate="1" title="Rotate 90 degrees right" aria-label="Rotate 90 degrees right" data-i18n-title="button.rotateRight" data-i18n-aria-label="button.rotateRight">
+                <span class="material-symbols-outlined" aria-hidden="true">rotate_right</span>
+              </button>
+            </div>
+            <div class="scale-controls" role="group" aria-label="Scale and reset display" data-i18n-aria-label="aria.scaleDisplay">
+              <button type="button" data-zoom="-1" title="Zoom out" aria-label="Zoom out" data-i18n-title="button.zoomOut" data-i18n-aria-label="button.zoomOut">-</button>
+              <button type="button" data-zoom="1" title="Zoom in" aria-label="Zoom in" data-i18n-title="button.zoomIn" data-i18n-aria-label="button.zoomIn">+</button>
+              <button type="button" data-view-reset title="Reset display position and scale" aria-label="Reset display position and scale" data-i18n="button.fit" data-i18n-title="button.fitTitle" data-i18n-aria-label="button.fitTitle">Fit</button>
+            </div>
+            <div class="view-switch" role="group" aria-label="View mode" data-i18n-aria-label="aria.viewMode">
+              <button class="active" type="button" data-view="2d">2D</button>
+              <button type="button" data-view="3d">3D</button>
+            </div>
+          </div>
+        </header>
+        <div class="canvas-stage">
+          <canvas id="patternCanvas" aria-label="Landing pattern drawing" data-i18n-aria-label="aria.canvas"></canvas>
+          <div class="path-control is-hidden" id="pathControl">
+            <label class="field compact-field">
+              <span data-i18n="path.selectedPoint">Selected path point</span>
+              <output id="pathPointOut">0%</output>
+              <input id="pathPoint" type="range" min="0" max="1000" step="1" value="0">
+            </label>
+          </div>
+        </div>
+      </section>
+
+      <aside class="control-panel" aria-label="Landing pattern parameters" data-i18n-aria-label="aria.parameters">
+        <section class="panel-section">
+          <h2 data-i18n="section.pattern">Pattern</h2>
+          <label class="field">
+            <span class="leg-title downwind-title" data-i18n="parameter.downwind">Downwind leg</span>
+            <output id="downwindOut">150 m</output>
+            <input id="downwind" type="range" min="50" max="500" step="5" value="150">
+          </label>
+          <label class="field">
+            <span class="leg-title base-title" data-i18n="parameter.base">Base leg</span>
+            <output id="baseOut">150 m</output>
+            <input id="base" type="range" min="50" max="500" step="5" value="150">
+          </label>
+          <label class="field">
+            <span class="leg-title final-title" data-i18n="parameter.final">Final approach</span>
+            <output id="finalOut">150 m</output>
+            <input id="final" type="range" min="50" max="500" step="5" value="150">
+          </label>
+          <div class="segmented" role="group" aria-label="Landing pattern direction" data-i18n-aria-label="aria.patternDirection">
+            <button type="button" data-hand="right" data-i18n="button.rightHand">Right hand</button>
+            <button class="active" type="button" data-hand="left" data-i18n="button.leftHand">Left hand</button>
+          </div>
+        </section>
+
+        <section class="panel-section">
+          <h2 data-i18n="section.aircraftWind">Aircraft and Wind</h2>
+          <label class="field">
+            <span data-i18n="parameter.wind">Wind speed</span>
+            <output id="windOut">10 km/h</output>
+            <input id="wind" type="range" min="0" max="30" step="1" value="10">
+          </label>
+          <label class="field">
+            <span data-i18n="parameter.straightGlide">Straight glide ratio</span>
+            <output id="straightGlideOut">7:1</output>
+            <input id="straightGlide" type="range" min="5" max="15" step="0.1" value="7">
+          </label>
+          <label class="field">
+            <span data-i18n="parameter.turnGlide">Turn glide ratio</span>
+            <output id="turnGlideOut">5:1</output>
+            <input id="turnGlide" type="range" min="5" max="15" step="0.1" value="5">
+          </label>
+          <label class="field">
+            <span data-i18n="parameter.airspeed">Airspeed</span>
+            <output id="airspeedOut">35 km/h</output>
+            <input id="airspeed" type="range" min="20" max="55" step="1" value="35">
+          </label>
+        </section>
+
+        <section class="panel-section metrics-section">
+          <div class="total-card">
+            <span data-i18n="summary.entryAltitude">Entry altitude required</span>
+            <strong id="totalAltitude">0 m</strong>
+          </div>
+          <div class="metrics-table" id="metricsTable"></div>
+        </section>
+      </aside>
+    </main>
+    <p class="disclaimer" data-i18n="notice.disclaimer">The values and visualizations provided by this application are without guarantee regarding correctness, are intended solely for initial training purposes, and do not replace practical instruction by a certified flight instructor!</p>
+    <script src="locales/en.js"></script>
+    <script src="locales/de.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
