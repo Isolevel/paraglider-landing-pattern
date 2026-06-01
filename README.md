@@ -5,3 +5,4 @@ I completed my paragliding course in 2024 and initially struggled to estimate th
 
 This browser app allows students to adjust parameters such as the leg lengths of the landing pattern, the wind in the landing zone and the glider’s flight characteristics, and to see the effect on the landing pattern. The whole thing is displayed in a top-down view and in isometric projection, and can be rotated and zoomed.
 
+![Example of the app gui showing a landing pattern in isometric projection with 150m legs, 10k wind and A-class glider flight flight characteristics.](./gui-example.png)
